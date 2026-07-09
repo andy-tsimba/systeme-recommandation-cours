@@ -1,19 +1,22 @@
 from modele import recommand
 from chargement import courses
 
-username = input("Entrez le nom de l'utilisateur \n")
+import pandas as pd
 
-# Appel de la fonction
-recom = recommand(username)
+if __name__ == "__main__":
+    username = input("Entrez le nom de l'utilisateur \n")
 
-# Transformer l'index en colonne
-recom_nc = recom.reset_index()
+    # Appel de la fonction
+    recom = recommand(username)
 
-# Renommer la colonne 0 en note_moyenne
-recom_nc = recom_nc.rename(columns = {0 : 'note_moyenne'})
+    # Transformer l'index en colonne
+    recom_nc = recom.reset_index()
 
-# Fusionner avec courses
-recom_final = recom_nc.merge(courses, on = 'course_id', how = 'left')
+    # Renommer la colonne 0 en note_moyenne
+    recom_nc = recom_nc.rename(columns = {0 : 'note_moyenne'})
 
-# Afficher le résultat
-print(recom_final[['name', 'institution', 'note_moyenne']])
+    # Fusionner avec courses
+    recom_final = recom_nc.merge(courses, on = 'course_id', how = 'left')
+
+    # Afficher le résultat
+    print(recom_final[['name', 'institution', 'note_moyenne']])
