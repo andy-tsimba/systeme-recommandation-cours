@@ -44,6 +44,8 @@ with onglet2:
     - By Pavel S
     """)
 
+    st.caption("⚠️ Les noms d'utilisateurs commencent toujours par 'By' (en anglais), pas 'Par'.")
+
     username = st.text_input("Nom d'utilisateur Coursera \n")
 
     if st.button("Recommander", key = "btn2"):
