@@ -2,7 +2,12 @@ import pandas as pd
 
 from chargement import reviews_finale, courses
 
-coursea = pd.read_csv("coursea_data.csv")
+import os
+
+if os.path.exists("coursea_data_small.csv"):
+    coursea = pd.read_csv("coursea_data_small.csv")
+else:
+    coursea = pd.read_csv("coursea_data.csv")
 
 notes_moyennes = reviews_finale.groupby('course_id')['rating'].mean().reset_index()
 # groupby('course_id') regroupe toutes les lignes par cours
@@ -36,7 +41,7 @@ def recommander_par_domaine(domaine, niveau, n_resultats = 10):
         how='left'
     )
     # 4. Filtrer par niveau si choisi
-    if niveau != "Tous":
+    if niveau != "All":
         cours_niveau = cours_niveau[cours_niveau['course_difficulty'] == niveau]
     # 5. Trier par note moyenne et retourner les meilleurs
     return cours_niveau[['name', 'institution', 'note_moyenne', 'course_difficulty']].sort_values('note_moyenne', ascending = False).head(n_resultats) 

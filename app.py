@@ -15,7 +15,7 @@ with onglet1:
                            ["Data Science", "Business", "Langues", "Santé", "Technologie"])
     niveau = st.selectbox("Niveau \n",
                           ["All", "Beginner", "Intermediate", "Advanced"])
-    n = st.slider("Nombre de cours à afficher :", 5, 20, 10)
+    n = st.slider("Nombre de cours à afficher \n", 5, 20, 10)
 
     if st.button("Recommander", key = "btn1"):
         resultats = recommander_par_domaine(domaine, niveau, n)

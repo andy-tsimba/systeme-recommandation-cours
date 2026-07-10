@@ -1,8 +1,15 @@
 import pandas as pd
+import os
 
-# On fait la chargement du fichier
-reviews = pd.read_csv("Coursera_reviews.csv")
-courses = pd.read_csv("Coursera_courses.csv")
+# Si les fichiers réduits existent (Streamlit Cloud), on les utilise
+# Sinon on utilise les fichiers complets (en local)
+if os.path.exists("Coursera_reviews_small.csv"):
+    reviews = pd.read_csv("Coursera_reviews_small.csv")
+    courses = pd.read_csv("Coursera_courses_small.csv")
+else:
+    reviews = pd.read_csv("Coursera_reviews.csv")
+    courses = pd.read_csv("Coursera_courses.csv")
+
 
 # On supprime les comptes supprimés
 reviews = reviews[reviews['reviewers'] != "By Deleted A"]
