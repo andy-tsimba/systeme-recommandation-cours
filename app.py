@@ -5,6 +5,10 @@ from filtrage import recommander_par_domaine
 
 st.title("Système de Recommandation de Cours")
 st.write("Découvrez les meilleurs cours Coursera selon vos intérêts !")
+col1, col2, col3 = st.columns(3)
+col1.metric("Cours disponibles", "623")
+col2.metric("Utlisateurs analysés", "7687")
+col3.metric("Avis traités", "1454711")
 
 onglet1, onglet2 = st.tabs(["Par domaine", "Par utilisateur"])
 
@@ -23,7 +27,12 @@ with onglet1:
             st.info("Aucun cours trouvé pour cette combinaison.")
         else:
             st.success(f"{len(resultats)} cours trouvés !")
-            st.dataframe(resultats)
+            st.dataframe(
+                resultats, column_config = {
+                    "course_url": st.column_config.LinkColumn("Lien du Cours")
+                })
+            st.subheader("Notes moyennes des cours recommandés")
+            st.bar_chart(resultats.set_index('name')['note_moyenne'])
 
 # ONGLET 2 — Mode secondaire
 with onglet2:
@@ -44,7 +53,7 @@ with onglet2:
     - By Pavel S
     """)
 
-    st.caption("⚠️ Les noms d'utilisateurs commencent toujours par 'By' (en anglais), pas 'Par'.")
+    st.caption("Les noms d'utilisateurs commencent toujours par 'By' (en anglais), pas 'Par'.")
 
     username = st.text_input("Nom d'utilisateur Coursera \n")
 
@@ -61,6 +70,12 @@ with onglet2:
                     st.info("Aucune recommandation trouvée pour cet utilisateur.")
                 else:
                     st.success(f"{len(recom_final)} cours recommandés !")
-                    st.dataframe(recom_final[['name', 'institution', 'note_moyenne']])
+                    st.dataframe(
+                        recom_final[['name', 'institution', 'note_moyenne', 'course_url']],
+                    column_config = {
+                        "course_url": st.column_config.LinkColumn("Lien du Cours")
+                    })
+                    st.subheader("Notes moyennes des cours recommandés")
+                    st.bar_chart(recom_final.set_index('name')['note_moyenne'])
             except:
                 st.error("Utilisateur introuvable ! Vérifiez le nom ou essayez un exemple.")
