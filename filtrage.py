@@ -44,4 +44,4 @@ def recommander_par_domaine(domaine, niveau, n_resultats = 10):
     if niveau != "All":
         cours_niveau = cours_niveau[cours_niveau['course_difficulty'] == niveau]
     # 5. Trier par note moyenne et retourner les meilleurs
-    return cours_niveau[['name', 'institution', 'note_moyenne', 'course_difficulty', 'course_url']].sort_values('note_moyenne', ascending = False).head(n_resultats)
+    return cours_niveau[cours_niveau['note_moyenne'] >= 3][['name', 'institution', 'note_moyenne', 'course_difficulty', 'course_url']].sort_values('note_moyenne', ascending = False).head(n_resultats)
